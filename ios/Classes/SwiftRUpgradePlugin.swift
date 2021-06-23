@@ -57,7 +57,7 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
     }
     
     //跳转到应用的AppStore页页面
-    func upgradeFromAppStore(appId: String, country String, result: @escaping FlutterResult) {
+    func upgradeFromAppStore(appId: String, country: String, result: @escaping FlutterResult) {
         let dict = getInfoFromAppStore(appId: appId,country:country);
         if((dict) != nil){
             let res = dict!["results"] as! NSArray
@@ -70,7 +70,7 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
     }
     
     //获取应用信息
-    func getInfoFromAppStore(appId:String, country String) -> NSDictionary? {
+    func getInfoFromAppStore(appId:String, country: String) -> NSDictionary? {
         var appUrl = "https://itunes.apple.com/lookup?id=" + appId
         if( country != nil ) {
            appUrl = "https://itunes.apple.com/lookup?id=" + appId + "&country=" + country
@@ -89,7 +89,7 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
         return nil;
     }
     
-    func getVersionFromAppStore(appId:String, country String, result: @escaping FlutterResult){
+    func getVersionFromAppStore(appId:String, country: String, result: @escaping FlutterResult){
         let dict = getInfoFromAppStore(appId: appId, country: country)
         if((dict) != nil){
             let res = dict!["results"] as! NSArray
