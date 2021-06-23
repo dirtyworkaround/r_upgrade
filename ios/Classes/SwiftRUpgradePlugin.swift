@@ -27,7 +27,10 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: "参数appId不能为空", message: nil, details: nil))
                 return
             }
-            let country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String
+            guard var country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String else {
+                 result(FlutterError(code: "参数country不能为空", message: nil, details: nil))
+                 return
+            }
             upgradeFromAppStore(appId: appId,country: country,result: result)
             break;
         case "getVersionFromAppStore":
@@ -36,7 +39,10 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: "参数appId不能为空", message: nil, details: nil))
                 return
             }
-            let country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String
+            guard var country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String else {
+                result(FlutterError(code: "参数country不能为空", message: nil, details: nil))
+                return
+            }
             getVersionFromAppStore(appId: appId,country: country,result: result)
             break;
         default:
