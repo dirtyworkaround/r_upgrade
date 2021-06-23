@@ -27,7 +27,8 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: "参数appId不能为空", message: nil, details: nil))
                 return
             }
-            upgradeFromAppStore(appId: appId,result: result)
+            let country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String
+            upgradeFromAppStore(appId: appId,country: country,result: result)
             break;
         case "getVersionFromAppStore":
             print(call.arguments ?? "null")
@@ -35,7 +36,8 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: "参数appId不能为空", message: nil, details: nil))
                 return
             }
-            getVersionFromAppStore(appId: appId,result: result)
+            let country = (call.arguments as? Dictionary<String, Any>)?["country"] as? String
+            getVersionFromAppStore(appId: appId,country: country,result: result)
             break;
         default:
             result(FlutterMethodNotImplemented)
@@ -55,8 +57,8 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
     }
     
     //跳转到应用的AppStore页页面
-    func upgradeFromAppStore(appId: String, result: @escaping FlutterResult) {
-        let dict = getInfoFromAppStore(appId: appId);
+    func upgradeFromAppStore(appId: String, country String, result: @escaping FlutterResult) {
+        let dict = getInfoFromAppStore(appId: appId,country:country);
         if((dict) != nil){
             let res = dict!["results"] as! NSArray
             let xx = res[0] as! NSDictionary
@@ -68,8 +70,11 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
     }
     
     //获取应用信息
-    func getInfoFromAppStore(appId:String) -> NSDictionary? {
-        let appUrl = "https://itunes.apple.com/lookup?id=" + appId
+    func getInfoFromAppStore(appId:String, country String) -> NSDictionary? {
+        var appUrl = "https://itunes.apple.com/lookup?id=" + appId
+        if( country != nil ) {
+           appUrl = "https://itunes.apple.com/lookup?id=" + appId + "&country=" + country
+        }
         do{
             let jsonData = NSData(contentsOf: NSURL(string: appUrl)! as URL)
             if(jsonData == nil){
@@ -84,8 +89,8 @@ public class SwiftRUpgradePlugin: NSObject, FlutterPlugin {
         return nil;
     }
     
-    func getVersionFromAppStore(appId:String,result: @escaping FlutterResult){
-        let dict = getInfoFromAppStore(appId: appId)
+    func getVersionFromAppStore(appId:String, country String, result: @escaping FlutterResult){
+        let dict = getInfoFromAppStore(appId: appId, country: country)
         if((dict) != nil){
             let res = dict!["results"] as! NSArray
             let xx = res[0] as! NSDictionary

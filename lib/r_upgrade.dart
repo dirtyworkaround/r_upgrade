@@ -192,10 +192,11 @@ class RUpgrade {
   ///
   /// [appId] your appId in appStore
   ///
-  static Future<bool?> upgradeFromAppStore(String appId) async {
+  static Future<bool?> upgradeFromAppStore(String appId, {String? country }) async {
     assert(Platform.isIOS, 'This method only support ios application');
     return await _methodChannel!.invokeMethod("upgradeFromAppStore", {
       'appId': appId,
+      'country': country
     });
   }
 
@@ -203,10 +204,11 @@ class RUpgrade {
   ///
   /// [id] your appId in appStore
   ///
-  static Future<String?> getVersionFromAppStore(String appId) async {
+  static Future<String?> getVersionFromAppStore(String appId, {String? country }) async {
     assert(Platform.isIOS, 'This method only support ios application');
     return await _methodChannel!.invokeMethod("getVersionFromAppStore", {
       'appId': appId,
+      'country': country
     });
   }
 }
